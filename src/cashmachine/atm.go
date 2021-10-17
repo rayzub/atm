@@ -9,7 +9,7 @@ import (
 )
 
 type CashMachine struct {
-	amount float64
+	info   *UserInfo
 	client *mongo.Client
 }
 
