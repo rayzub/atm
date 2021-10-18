@@ -1,6 +1,7 @@
 package main
 
 import (
+	"atm/src/cashmachine"
 	"fmt"
 	"os"
 )
@@ -17,13 +18,15 @@ const UI_ART = `
 
 `
 
-func main() {
-	os.Setenv("MONGO_URI", "")
-	mainScreen()
-}
-
 func mainScreen() {
 	fmt.Println(UI_ART)
+	_ = &cashmachine.CashMachine{}
+
 }
 
 func authScreen() {}
+
+func main() {
+	os.Setenv("MONGO_URI", "")
+
+}
