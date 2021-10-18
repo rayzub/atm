@@ -1,4 +1,4 @@
-package cashmachine
+package src
 
 import (
 	"context"

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"atm/src/cashmachine"
+	"atm/src"
 	"context"
 	"fmt"
 	"os"
@@ -22,7 +22,7 @@ const UI_ART = `
 func mainScreen() {
 	fmt.Println(UI_ART)
 	ctx := context.Background()
-	cm := &cashmachine.CashMachine{}
+	cm := &src.CashMachine{}
 
 	cm.NewConnection(ctx)
 

@@ -1,4 +1,4 @@
-package cashmachine
+package src
 
 type UserInfo struct {
 	Username string `bson:"username,omitempty"`
