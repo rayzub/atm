@@ -2,6 +2,7 @@ package main
 
 import (
 	"atm/src/cashmachine"
+	"context"
 	"fmt"
 	"os"
 )
@@ -20,7 +21,15 @@ const UI_ART = `
 
 func mainScreen() {
 	fmt.Println(UI_ART)
-	_ = &cashmachine.CashMachine{}
+	ctx := context.Background()
+	cm := &cashmachine.CashMachine{}
+
+	cm.NewConnection(ctx)
+
+	verified := cm.Login(ctx)
+	if !verified {
+		return
+	}
 
 }
 
