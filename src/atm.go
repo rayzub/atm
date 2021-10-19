@@ -2,11 +2,18 @@ package src
 
 import (
 	"context"
+  "time"
+  "errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"os"
+)
+
+
+var (
+  amountTooBigErr = errors.New("Amount is larger than amount in bank")
 )
 
 type CashMachine struct {
@@ -25,6 +32,11 @@ func (cm *CashMachine) NewConnection(ctx context.Context) {
 	cm.client = client.Database("ATM")
 	log.Println("ATM - Connected!")
 }
+
+func (cm *CashMachine) CreateAccount(ctx context.Context) bool {
+  
+}
+
 func (cm *CashMachine) Login(ctx context.Context) bool {
 
 	var userInfo *UserInfo
@@ -44,7 +56,42 @@ func (cm *CashMachine) Login(ctx context.Context) bool {
 	return true
 }
 
-func (cm *CashMachine) Withdraw() {}
-func (cm *CashMachine) Add()      {}
-func (cm *CashMachine) Gamble()   {}
-func (cm *CashMachine) Work()     {}
+func (cm *CashMachine) WithdrawAdd(ctx context.Context, txType string) error {
+
+  fmt.Println("Enter amount to withdraw > ")
+  var amount float64
+  _, err := fmt.Scanln(&amount); if err != nil {
+    log.Fatalf("ATM - Withdaw - Error %v", err); return err  
+  }
+
+  if amount > cm.info.Amount {
+    return amountTooBigErr
+  }
+
+
+  switch txType {
+    case "withdraw":
+      cm.info.Amount - amount
+      break
+    case "add":
+      cm.info.Amount + amount
+      break
+  }
+
+  tx := Transaction{
+    Type: txType,
+    Amount: amount,
+    User: os.Getenv("USERNAME"),
+    Date: time.Now().Unix(),
+  }
+
+  _, err := cm.client.Collection("transactions").InsertOne(ctx, tx)
+
+  if err != nil {
+    log.Fatalf("ATM - Withdraw - Database error %v", err); return err
+  }
+  
+  return nil
+}
+func (cm *CashMachine) Gamble(ctx context.Context)   {}
+func (cm *CashMachine) Work(ctx context.Context)     {}

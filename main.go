@@ -19,21 +19,41 @@ const UI_ART = `
 
 `
 
-func mainScreen() {
+func homeScreen() {
 	fmt.Println(UI_ART)
 	ctx := context.Background()
 	cm := &src.CashMachine{}
 
 	cm.NewConnection(ctx)
 
-	verified := cm.Login(ctx)
-	if !verified {
-		return
-	}
+  _ = cm.Login(ctx)
 
 }
 
-func authScreen() {}
+func mainScreen() {
+  
+}
+
+func authScreen() {
+  var username string
+  var pin int
+
+  fmt.Println(UI_ART)
+
+  fmt.Println(`
+  - 1 - Create a new account
+  - 2 - Login to existing account
+  `)
+
+  fmt.Println("> ")
+  var option int
+  fmt.Scanln(&option)
+
+  if option == 1 {
+
+  }
+
+}
 
 func main() {
 	os.Setenv("MONGO_URI", "")
