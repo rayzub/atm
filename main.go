@@ -68,6 +68,6 @@ func authScreen() {
 }
 
 func main() {
-	os.Setenv("MONGO_URI", "mongodb+srv://admin:hrQnqeB4de89i4O7@odachi.7ides.mongodb.net/ATM")
+	os.Setenv("MONGO_URI", "")
 	homeScreen()
 }
