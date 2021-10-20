@@ -26,36 +26,48 @@ func homeScreen() {
 
 	cm.NewConnection(ctx)
 
-  _ = cm.Login(ctx)
+	fmt.Println(`
+	- 1 - Create an account
+	- 2 - Log in to existing account
+`)
+	for {
+		fmt.Println("Choose an option: ")
+		var option int
+		fmt.Scanln(&option)
+
+		if option == 1 {
+			created := cm.CreateAccount(ctx)
+			if created {
+				break
+			}
+		} else if option == 2 {
+			verified := cm.Login(ctx)
+			if verified {
+				break
+			}
+		} else {
+			continue
+		}
+	}
 
 }
 
 func mainScreen() {
-  
+
 }
 
 func authScreen() {
-  var username string
-  var pin int
 
-  fmt.Println(UI_ART)
+	fmt.Println(UI_ART)
 
-  fmt.Println(`
+	fmt.Println(`
   - 1 - Create a new account
   - 2 - Login to existing account
   `)
 
-  fmt.Println("> ")
-  var option int
-  fmt.Scanln(&option)
-
-  if option == 1 {
-
-  }
-
 }
 
 func main() {
-	os.Setenv("MONGO_URI", "")
-
+	os.Setenv("MONGO_URI", "mongodb+srv://admin:hrQnqeB4de89i4O7@odachi.7ides.mongodb.net/ATM")
+	homeScreen()
 }
