@@ -96,6 +96,6 @@ func homeScreen() {
   }
 }
 func main() {
-	os.Setenv("MONGO_URI", "")
+	os.Setenv("MONGO_URI", )
 	homeScreen()
 }
