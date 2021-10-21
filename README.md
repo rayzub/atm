@@ -7,3 +7,6 @@ Features include:
 2. Adding money
 3. Working for money
 4. Gambling all your money away!
+
+
+MONGO_URI env variable needed.
