@@ -9,5 +9,5 @@ type UserInfo struct {
 	Username   string             `bson:"username,omitempty"`
 	Pin        int                `bson:"pin,omitempty"`
 	Amount     float64            `bson:"amount,omitempty"`
-	Profession string             `bson:""`
+	Profession string             `bson:"profession,omitempty"`
 }

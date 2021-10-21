@@ -2,6 +2,7 @@ package main
 
 import (
 	"atm/src"
+  tm "github.com/buger/goterm"
 	"context"
 	"fmt"
 	"os"
@@ -20,53 +21,80 @@ const UI_ART = `
 `
 
 func homeScreen() {
+
 	fmt.Println(UI_ART)
+  // Initialise context that mongo requires, passed into each function as a param
 	ctx := context.Background()
+  // Initialise cash machine struct
 	cm := &src.CashMachine{}
 
+  // Connect to database
 	cm.NewConnection(ctx)
 
-	fmt.Println(`
+
+  
+  // Loops user input for easy error handling 
+	for {
+    fmt.Println(`
 	- 1 - Create an account
 	- 2 - Log in to existing account
 `)
-	for {
-		fmt.Println("Choose an option: ")
+    fmt.Println("Choose an option: ")
 		var option int
 		fmt.Scanln(&option)
 
 		if option == 1 {
-			created := cm.CreateAccount(ctx)
-			if created {
-				break
-			}
+			if created := cm.CreateAccount(ctx); created {
+        continue
+      }
 		} else if option == 2 {
-			verified := cm.Login(ctx)
-			if verified {
-				break
-			}
-		} else {
-			continue
-		}
+			if verified := cm.Login(ctx); verified {
+        break
+      }
+    } else {
+      continue
+    }
 	}
 
-}
+  tm.Clear()
 
-func mainScreen() {
 
-}
+  // Prints main screen after new account created or login works (as loop breaks)
 
-func authScreen() {
 
-	fmt.Println(UI_ART)
-
-	fmt.Println(`
-  - 1 - Create a new account
-  - 2 - Login to existing account
+  // Loops user input for easy error handling 
+  for {
+    fmt.Println(`
+  - 1 - Withdraw
+  - 2 - Add
+  - 3 - Gamble
+  - 4 - Work
   `)
 
-}
+    fmt.Println("Choose an option: ")
+    var option int
+    fmt.Scanln(&option)
 
+    switch option {
+      case 1:
+        cm.WithdrawAdd(ctx, "withdraw")
+        break
+      case 2:
+        cm.WithdrawAdd(ctx, "add")
+        break
+      case 3:
+        cm.Gamble(ctx)
+        break
+      case 4:
+        cm.Work(ctx)
+        break
+      default:
+        continue
+    }
+
+
+  }
+}
 func main() {
 	os.Setenv("MONGO_URI", "")
 	homeScreen()
